@@ -1,6 +1,7 @@
 #include "ros/ros.h"
 #include "motor.cpp"
 #include "dynamixel.cpp"
+#include "gps.cpp"
 
 #include <iostream>
 #include <stdlib.h>
@@ -9,6 +10,13 @@
 
 using namespace std;
 
+// is sensor ok?
+bool GPS = false;
+bool IMU = false;
+bool ULTRA = false;
+bool CAMERA = false;
+bool is_sensor_ok() { return GPS && IMU && ULTRA && CAMERA; }
+
 int mode_flag=0;
 
 int main(int argc, char *argv[]){
@@ -16,6 +24,8 @@ int main(int argc, char *argv[]){
 	ros::NodeHandle nh;
 	
 	ros::Publisher m_pub = nh.advertise<kanu_msgs::motor_msgs>("/motor_topic", 1);
+	
+	ros::Subscriber gps_sub = nh.subscribe("/gps", 1, GPS_Callback);
 	
 	ros::ServiceClient d_client = nh.serviceClient<kanu_msgs::door>("door");
 	ros::ServiceClient t_client = nh.serviceClient<kanu_msgs::tilt>("tilt");
@@ -34,6 +44,8 @@ int main(int argc, char *argv[]){
 			case 0:
 				motor_pub(50, 50, 5);
 				ROS_INFO("RUN");
+				if(is_sensor_ok())
+					mode_flag = 1;
 				break;
 			case 1:
 				//자율주행with사람찾기();
