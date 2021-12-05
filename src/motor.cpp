@@ -1,6 +1,6 @@
 #ifndef MOTOR_CPP
 #define MOTOR_CPP
-#include "motor.h"
+#include "kanu_main/motor.h"
 
 void motor_pub(int pwm_1, int pwm_2, float delay){
     kanu_msgs::motor_msgs motor_msg;

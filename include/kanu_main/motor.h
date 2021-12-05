@@ -2,7 +2,7 @@
 #define MOTOR_H
 
 #include "ros/ros.h"
-#include "kanu_msgs/motor_msgs"
+#include "kanu_msgs/motor_msgs.h"
 
 ros::Publisher *pwm_pub;
 

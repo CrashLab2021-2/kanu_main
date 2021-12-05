@@ -1,5 +1,6 @@
 #ifndef DYNAMIX_CPP
 #define DYNAMIX_CPP
+#include "kanu_main/dynamixel.h"
 
 void openDoor(){
     door_srv.request.signal = true;
@@ -23,15 +24,15 @@ void closeDoor(){
     else ROS_ERROR("Failed");
 }
 
-void tilteUp(){
-    tile_srv.request.angle = 1180;
-    if(!tilte_client->call(tile_srv))
+void tiltUp(){
+    tilt_srv.request.angle = 1180;
+    if(!tilt_client->call(tilt_srv))
         ROS_ERROR("Failed");
 }
 
-void tilteDown(){
-    tile_srv.request.angle = 0;
-    if(!tilte_client->call(tile_srv))
+void tiltDown(){
+    tilt_srv.request.angle = 0;
+    if(!tilt_client->call(tilt_srv))
         ROS_ERROR("Failed");
 }
 
