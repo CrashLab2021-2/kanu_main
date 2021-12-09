@@ -1,6 +1,8 @@
 #include "ros/ros.h"
 #include "motor.cpp"
 #include "dynamixel.cpp"
+#include "us.cpp"
+#include "std_msgs/String.h"
 
 #include <iostream>
 #include <stdlib.h>
@@ -16,6 +18,12 @@ int main(int argc, char *argv[]){
 	ros::NodeHandle nh;
 	
 	ros::Publisher m_pub = nh.advertise<kanu_msgs::motor_msgs>("/motor_topic", 1);
+	ros::Publisher ui_pub = nh.advertise<std_msgs::String>("/chatter", 1);
+	
+	ros::Subscriber us_1_sub = nh.subscribe("/us1/us_topic", 1, us1Callback);
+	ros::Subscriber us_2_sub = nh.subscribe("/us2/us_topic", 1, us2Callback);
+	ros::Subscriber us_3_sub = nh.subscribe("/us3/us_topic", 1, us3Callback);
+	ros::Subscriber us_4_sub = nh.subscribe("/us4/us_topic", 1, us4Callback);
 	
 	ros::ServiceClient d_client = nh.serviceClient<kanu_msgs::door>("door");
 	ros::ServiceClient t_client = nh.serviceClient<kanu_msgs::tilt>("tilt");
@@ -32,7 +40,7 @@ int main(int argc, char *argv[]){
 		switch(mode_flag)
 		{
 			case 0:
-				motor_pub(50, 50, 5);
+				motor_pub(50, 50, 1);
 				ROS_INFO("RUN");
 				break;
 			case 1:
